@@ -3,13 +3,53 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <style>
+      .container {
+        text-align: center;
+        width: 100%;
+      }
+      .h3-container {
+        display: flex;
+        justify-content: space-evenly;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div class="container">
+      <h1 id="pCountdownTime">CD</h1>
+      <div class="h3-container">
+        <h3 id="pStartTime">Start</h3>
+        <h3 id="pEndTime">End</h3>
+      </div>
+    </div>
+    
+    <script>
+      // Get start time check-in
+      var startTime = new Date();
+      var startHours = startTime.getHours();
+      var startMinutes = startTime.getMinutes();
+      document.getElementById("pStartTime").innerHTML = startHours + ":" + startMinutes;
+
+      // Count end time check-out
+      var endTime = new Date();
+      endTime.setMinutes(startTime.getMinutes() + 588);
+      var endHour = endTime.getHours();
+      var endMinutes = endTime.getMinutes();
+      document.getElementById("pEndTime").innerHTML = endHour + ":" + endMinutes;
+
+      // Working time
+      var distance = 35280000;
+
+      // Update time
+      var updateTime = setInterval(function() {
+        var currentTime = new Date();
+        distance = endTime.getTime() - currentTime.getTime();
+        var cdHours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var cdMinutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var cdSeconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("pCountdownTime").innerHTML = cdHours + ":" + cdMinutes + ":" + cdSeconds;
+      }, 1000);
+    </script>
 
     <script>
       // You can also require other files to run in this process
